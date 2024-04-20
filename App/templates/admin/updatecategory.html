@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>login</title>
+{% endblock %}
+
+
+{% block content %}
+    <script src="/static/admin/js/jquery-3.7.1.min.js"></script>
+
+    {% if username %}
+        <h1>{{ username }}<a href="/admin/logout"> (Sign out)</a></h1>
+
+    {% else %}
+        <li><a href="/admin/login">Log in</a></li>
+    {% endif %}
+
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: '/admin/updatecategory/{{ category.id }}', // 表单的提交地址
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        $('#card-id').text(response.id);
+                        $('#card-name').text(response.name);
+                        $('#card-description').text(response.describe);
+                        alert('Change submitted successfully');
+                    },
+                    error: function () {
+                        alert('Error submitting change');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <div class="row">
+        <div class="col-sm-4">
+            <br>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h6>Card ID</h6>
+                    <p class="card-text" id="card-id">{{ id }}</p>
+                    <h6>Card Name</h6>
+                    <p class="card-text" id="card-name">{{ category.name }}</p>
+                    <h6>Card Description</h6>
+                    <p class="card-text" id="card-description">{{ category.describe }}</p>
+                    <a href="/admin/category" class="card-link">Change another card</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <form action="/admin/updatecategory/{{ category.id }}" method="post" autocomplete="off">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">New Card Name</label>
+                    <input type="text" name="name" placeholder="Enter the changed name" required autocomplete="off"
+                           class="form-control" id="exampleFormControlInput1"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">New Card Description</label>
+                    <textarea name="describe" placeholder="Enter the changed description" autocomplete="off"
+                              class="form-control" id="exampleFormControlTextarea1"
+                              rows="3"></textarea>
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">Submit the Change</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <a href="/admin">
+        <button type="button" class="btn btn-primary">return</button>
+    </a>
+
+{% endblock %}

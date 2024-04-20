@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>login</title>
+{% endblock %}
+
+{% block content %}
+    <script src="/static/admin/js/jquery-3.7.1.min.js"></script>
+    {% if username %}
+        <h1>{{ username }}<a href="/admin/logout"> (Sign out)</a></h1>
+
+    {% else %}
+        <li><a href="/admin/login">Log in</a></li>
+    {% endif %}
+
+    {#    分类查看#}
+    <div class="row row-cols-2">
+        <div class="col">
+            <br>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for category in categorys %}
+                    <tr>
+                        <th scope="row">{{ category.id }}</th>
+                        <td>{{ category.name }}</td>
+                        <td><a href="/admin/updatecategory/{{ category.id }}">Edit</a></td>
+                        <td><a href="#" class="delete-link" cid="{{ category.id }}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <form action="/admin/addcategory" method="post" autocomplete="off">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Card Name</label>
+                    <input type="text" name="name" placeholder="Please enter a card name" required autocomplete="off"
+                           class="form-control" id="exampleFormControlInput1"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Card Description</label>
+                    <textarea name="describe" autocomplete="off" placeholder="Please enter a description for the card"
+                              class="form-control" id="exampleFormControlTextarea1"
+                              rows="3"></textarea>
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">Add New Card</button>
+            </form>
+        </div>
+    </div>
+    <a href="/admin">
+        <button type="button" class="btn btn-primary">return</button>
+    </a>
+    <script>
+        $(function () {
+            $('.delete-link').click(function (event) {
+                event.preventDefault();
+                var id = $(this).attr('cid');
+                var row = $(this).closest('tr');
+                $.ajax({
+                    url: '/admin/delcategory',
+                    type: 'POST',
+                    data: {id: id},
+                    success: function (response) {
+                        if (response === 'ok') {
+                            alert('Delete successful');
+                            row.remove();
+                        } else {
+                            alert('Delete Failed');
+                        }
+                    },
+                    error: function () {
+                        alert('Request Failed');
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Register</title>
+{% endblock %}
+
+{% block content %}
+    <h2>Register</h2>
+    <form action="/admin/register" method="post" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label>username</label>
+            <input type="text" name="username1" placeholder="Input username" class="form-control" id="username">
+        </div>
+        <div class="form-group">
+            <label>password</label>
+            <input type="password" name="userpwd1" placeholder="Input password" class="form-control" id="password">
+        </div>
+
+        <button type="submit" class="btn btn-primary">register</button>
+    </form>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            if (username == "" || password == "") {
+                alert("The username and password cannot be empty!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+{% endblock %}

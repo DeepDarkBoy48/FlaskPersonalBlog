@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Index</title>
+{% endblock %}
+<br>
+{% block content %}
+    <h3>Write some cards in the setting.</h3>
+    <br>
+    {#    # 1#}
+    <div class="card-columns">
+        {% for category in categorys %}
+            {% set bg_classes = ['bg-secondary', 'bg-primary', 'bg-success', 'bg-danger', 'bg-warning', 'bg-info'] %}
+            {% set bg_class = bg_classes[loop.index0 % 6] %}
+            <div class="card text-white {{ bg_class }} mb-3" style="max-width: 18rem;">
+                <div class="card-header">{{ category.name }}</div>
+                <div class="card-body">
+                    <span>{{ category.describe }}</span>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}
+<br>
+{% block foot %}
+{% endblock %}
+

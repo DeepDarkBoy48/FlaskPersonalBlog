@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>login</title>
+{% endblock %}
+
+{% block content %}
+    {% if username %}
+        <h1>{{ username }}<a href="/admin/logout"> (Sign out)</a></h1>
+
+    {% else %}
+        <li><a href="/admin/login">Log in</a></li>
+    {% endif %}
+
+    <br><br>
+    <div class="row">
+        <div class="col-6 col-md-4">
+            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-header">Total number</div>
+                <div class="card-body">
+                    <h5>{{ categorys.count() }}</h5>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <a href="/admin/category">Manage Cards</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+{% endblock %}
